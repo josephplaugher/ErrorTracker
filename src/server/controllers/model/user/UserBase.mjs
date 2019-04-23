@@ -1,5 +1,3 @@
-import SetStripeKey from './../SetStripeKey'
-
 class UserBase {
 	constructor(req, res) {
 		this.stripe = SetStripeKey()

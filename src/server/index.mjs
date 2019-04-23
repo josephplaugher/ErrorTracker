@@ -6,18 +6,7 @@ import cookieParser from 'cookie-parser'
 import SetUrl from './util/SetUrl'
 import Auth from './util/Auth'
 import userCont from './controllers/userCont'
-import achCont from './controllers/achCont'
-import ccCont from './controllers/ccCont'
-import Sentry from '@sentry/node'
-
-Sentry.init({
-	dsn: 'https://795905e8dd5147f4bd771d1203661434@sentry.io/payment'
-})
-// The request handler must be the first middleware on the app
-app.use(Sentry.Handlers.requestHandler())
-// The error handler must be before any other error middleware
-app.use(Sentry.Handlers.errorHandler())
-
+import errorCont from './controllers/errorCont'
 app.use(express.static('public'))
 app.set('view engine', 'ejs')
 app.set('views', './src/views')
@@ -51,8 +40,7 @@ app.get('/checkLoginState', checkAuth, (req, res) => {
 })
 
 app.use('/', userCont)
-app.use('/', checkAuth, achCont)
-app.use('/', checkAuth, ccCont)
+app.use('/', errorCont)
 
 //this route renders the UI. The UI will check for the cookie and token
 //and log the user out if they don't exist.
