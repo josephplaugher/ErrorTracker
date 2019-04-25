@@ -1,7 +1,7 @@
 #home-container {
 	display: grid;
-	grid-template-columns: 25% 25% 25% 25%;
-	grid-template-rows: 10% auto;
+	grid-template-columns: 100%;
+	grid-template-rows: 10% 20% auto;
 }
 
 #sign-in {
@@ -16,8 +16,6 @@
 	border-radius: 5px;
 	width: 20%;
 	margin: 5px;
-	grid-column-start: 1;
-	grid-column-end: 2;
 	grid-row-start: 2;
 	grid-row-end: 3;
 }
@@ -31,10 +29,18 @@
 }
 
 #working-pane {
-	grid-column-start: 2;
-	grid-column-end: 5;
+	padding: 10px;
+}
+
+#error-list {
 	grid-row-start: 2;
 	grid-row-end: 3;
+	overflow-y: scroll;
+}
+
+#error-details {
+	grid-row-start: 3;
+	grid-row-end: 5;
 }
 
 .userNotify {
