@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactJson from 'react-json-view'
 
 class ErrorDetails extends React.Component {
 	constructor(props) {
@@ -6,12 +7,13 @@ class ErrorDetails extends React.Component {
 	}
 
 	render() {
+		console.log(this.props.details)
 		// prettier-ignore
 		const header = `ID: ${this.props.details.id}. Level: ${this.props.details.level}. Timestamp: ${this.props.details.timestamp}`
 		return (
 			<>
 				<p className='error-details'>{header}</p>
-				<p className='error-details'>{this.props.details.message}</p>
+				<ReactJson src={this.props.details} />
 			</>
 		)
 	}

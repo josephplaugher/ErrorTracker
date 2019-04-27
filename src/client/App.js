@@ -20,33 +20,33 @@ class AppreciateCo extends FormClass {
 		this.valRules = ValRules
 		this.state = {
 			error: null,
-			isLoggedIn: true,
+			isLoggedIn: false,
 			userData: {},
 			email: '',
 			password: ''
 		}
-		// this.setLoginState = this.setLoginState.bind(this)
+		this.setLoginState = this.setLoginState.bind(this)
 		this.response = this.response.bind(this)
-		//this.setLoginState()
+		this.signOut = this.signOut.bind(this)
+		this.setLoginState()
 	}
 
-	// setLoginState = () => {
-	// 	// let auth = checkLoginState()
-	// 	// auth.then((res) => {
-	// 	// 	// console.log('check login state resp: ', res)
-	// 	// 	if (res.isLoggedIn === true) {
-	// 	// 		this.setState({
-	// 	// 			isLoggedIn: res.isLoggedIn,
-	// 	// 			userData: res.userData
-	// 	// 		})
-	// 	// 	} else {
-	// 	// 		this.setState({
-	// 	// 			isLoggedIn: false,
-	// 	// 			userData: {}
-	// 	// 		})
-	// 	// 	}
-	// 	// })
-	// }
+	setLoginState = () => {
+		let auth = checkLoginState()
+		auth.then((res) => {
+			if (res.isLoggedIn === true) {
+				this.setState({
+					isLoggedIn: res.isLoggedIn,
+					userData: res.userData
+				})
+			} else {
+				this.setState({
+					isLoggedIn: false,
+					userData: {}
+				})
+			}
+		})
+	}
 
 	response = (res) => {
 		if (typeof res.data.userData !== 'undefined') {
@@ -56,7 +56,6 @@ class AppreciateCo extends FormClass {
 			)
 			sessionStorage.setItem(process.env.TOKEN_NAME, res.data.token)
 			this.setState({
-				// token: res.data.token,
 				userNotify: res.data.userNotify,
 				userData: res.data.userData,
 				isLoggedIn: true
@@ -67,19 +66,29 @@ class AppreciateCo extends FormClass {
 		}
 	}
 
+	signOut() {
+		sessionStorage.removeItem(process.env.USER_DATA_LABEL)
+		sessionStorage.removeItem(process.env.TOKEN_NAME)
+		this.setState({
+			isLoggedIn: false,
+			userData: {}
+		})
+		Ajax.get(SetUrl() + '/user/logout')
+	}
+
 	render() {
 		return (
-			<div id='container'>
-				<div id='logoBox'>
-					<img src={Logo} alt='Appreciate Logo' />
-				</div>
-				<div>
+			<>
+				<div id='container'>
 					{this.state.isLoggedIn ? (
 						<EB comp='Home'>
-							<Home />
+							<Home userData={this.state.userData} signOut={this.signOut} />
 						</EB>
 					) : (
 						<div id='sign-in'>
+							<div id='logo-box'>
+								<img src={Logo} alt='Appreciate Logo' />
+							</div>
 							<p className='formTitle'>Sign In</p>
 							{/* prettier-ignore */}
 							<form onSubmit={this.rfa_onSubmit} >
@@ -88,11 +97,12 @@ class AppreciateCo extends FormClass {
                   <div className="rfa_button-div">
                     <Button id="submit" value="Sign In" />
                   </div>
+									<p className="error-msg"> {this.state.userData.error}</p>
               </form>
 						</div>
 					)}
 				</div>
-			</div>
+			</>
 		)
 	}
 }

@@ -1,25 +1,23 @@
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import UserBase from './UserBase'
+import dbConn from './../../../util/postgres'
 
-class Login extends UserBase {
+class Login {
 	constructor(req, res) {
-		super()
 		this.req = req
 		this.res = res
 	}
 
-	async start() {
-		// get the user info along with their list of sources.
-		// we've store the users name and password in the "desription"
-		// field on the Stripe customer object. We add the email
-		// since that is stored separately and used for searching.
-		// finally, we add their list of payment sources for use
-		// on the client side.
-		let users = await this.getCustomersByEmail()
-		let user = users.data[0]
-		let userData = this.buildUserObject(user)
-		this.checkPassword(this.req, this.res, userData)
+	start() {
+		const query = {
+			text:
+				'SELECT id, email, lname, fname, password FROM users WHERE email = $1 ',
+			values: [this.req.body.email.toLowerCase()]
+		}
+		dbConn
+			.query(query)
+			.then((data) => this.checkPassword(this.req, this.res, data.rows[0]))
+			.catch((e) => console.error(e.stack))
 	}
 
 	checkPassword(req, res, userData) {

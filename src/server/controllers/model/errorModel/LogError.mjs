@@ -9,7 +9,7 @@ const LogError = (req, res, next) => {
 		INSERT INTO errors
 			(appname, message, level)
 		VALUES ('test', $1,$2)`,
-		values: [req.body.message, req.body.level]
+		values: [req.body.message, JSON.stringify(req.body.level)]
 	}
 	dbConn.query(Query).then((result) => {
 		res.status(200).json({ LoggedError: result })

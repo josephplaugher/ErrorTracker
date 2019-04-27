@@ -11,15 +11,19 @@ class User extends Component {
 	}
 
 	render() {
-		const signed = `Current User: ${this.props.userData.lname}, ${
-			this.props.userData.fname
-		}`
+		// prettier-ignore
+		const signed = `Current User: ${this.props.userData.lname}, ${this.props.userData.fname}`
 
 		return (
-			<div id='user'>
-				<p>{signed}</p>
-				<Button id='sign out' className='submit' value='Sign Out' />
-			</div>
+			<>
+				<p className='text'>{signed}</p>
+				<Button
+					id='sign out'
+					className='submit'
+					value='Sign Out'
+					onClick={this.props.signOut}
+				/>
+			</>
 		)
 	}
 }
