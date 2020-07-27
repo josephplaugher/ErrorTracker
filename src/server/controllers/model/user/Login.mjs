@@ -40,7 +40,6 @@ class Login {
 					})
 				} else if (result == true) {
 					delete userData.password //ensure the pw hash isn't sent along to the client
-					// console.log("userdata placed into initial token: ", userData);
 					var token = jwt.sign({ userData: userData }, process.env.JWT_SECRET, {
 						expiresIn: '1h'
 					})

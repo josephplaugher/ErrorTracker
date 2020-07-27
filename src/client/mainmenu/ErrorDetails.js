@@ -7,7 +7,6 @@ class ErrorDetails extends React.Component {
 	}
 
 	render() {
-		console.log(this.props.details)
 		// prettier-ignore
 		const header = `ID: ${this.props.details.id}. Level: ${this.props.details.level}. Timestamp: ${this.props.details.timestamp}`
 		return (
