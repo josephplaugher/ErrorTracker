@@ -27,7 +27,7 @@
     "jsonwebtoken": "^8.4.0",
     "lightbox-appco": "^1.0.3",
     "moment": "^2.23.0",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.13.1",
     "pg": "^7.7.1",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
